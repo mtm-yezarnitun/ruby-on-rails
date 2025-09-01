@@ -1,0 +1,12 @@
+div id=dom_id(post)
+  h1
+    = post.title
+
+  p
+    = post.user.user_name
+    strong Body:
+    = post.body
+
+  p
+    strong Made By :
+    = link_to post.user.email, post.user

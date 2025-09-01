@@ -1,0 +1,22 @@
+p style="color: green"
+  = notice
+
+- content_for :title, "Posts"
+
+= search_form_for @q, url: posts_path, method: :get do |f|
+  div
+    = f.label :title_cont, "Search By Title"
+    = f.search_field :title_cont, placeholder: "Enter Title :"
+
+  div
+    = f.submit "Search"
+
+h1 Posts
+
+#posts
+  - @posts.each do |post|
+    = render post
+    p
+      = link_to "Show this post", post
+
+= link_to "New post", new_post_path
