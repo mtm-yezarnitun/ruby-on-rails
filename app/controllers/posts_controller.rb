@@ -20,6 +20,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    redirect_to posts_path,alert: "Not Authorized!" unless @post.user == current_user
   end
 
   def myposts
@@ -44,9 +45,13 @@ class PostsController < ApplicationController
       end
     end
   end
-
+  
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    if @post.user != current_user
+      redirect_to posts_path, alert: "Not Authorized"
+      return
+    end
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: "Post was successfully updated.", status: :see_other }
@@ -60,6 +65,10 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
+    if @post.user != current_user
+      redirect_to posts_path, alert: "Not Authorized"
+      return
+    end
     @post.destroy!
     respond_to do |format|
       format.html { redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other }

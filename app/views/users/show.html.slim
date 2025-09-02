@@ -1,0 +1,10 @@
+.container.mt-5
+  .card.mx-auto style="max-width: 400px;"
+    .card-body.text-center
+       - if @user.profile_picture.attached? 
+          = image_tag @user.profile_picture, class: "rounded-circle mb-3", size: "100x100",alt: "#{@user.user_name}'s profile picture" 
+       - else
+          = image_tag "default-profile.png" , class: "rounded-circle mb-3", alt: "Default profile picture", size: "150x150" 
+
+       h4.card-title = @user.user_name
+       h6.card-subtitle.mb-2.text-muted = @user.email

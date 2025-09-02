@@ -15,7 +15,8 @@ gem "jbuilder"
 gem 'devise', '~> 4.9', '>= 4.9.4'
 gem 'friendly_id', '~> 5.5', '>= 5.5.1'
 gem 'ransack', '~> 4.3'
-gem 'slim-rails'       # Enables Slim in Rails (like ERB or HAML)
+gem 'slim-rails'  
+gem 'sassc-rails'
 
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -26,6 +27,10 @@ end
 
 group :development do
   gem "web-console"
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rspec', require: false  # if you use RSpec
 end
 
 group :test do

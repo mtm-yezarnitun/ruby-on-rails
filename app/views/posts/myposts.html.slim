@@ -1,9 +1,22 @@
-#posts
-h1 style="display:none" 
-  = current_user.id 
+p.text-white
+  = notice
 
-- @posts.each do |post| 
-  = render post 
-  
-  p
-    = link_to "Show this post", post 
+- content_for :title, "My Posts"
+
+main.container
+  header.d-flex.justify-content-between.align-items-center.mb-4
+    h1 My Posts
+    
+  section
+    - if @posts.any?
+      .row
+        - @posts.each do |post|
+          article.col-md-6.mb-4
+            .card.h-100
+              .card-body.d-flex.flex-column
+                h2.card-title = post.title
+                p.text-muted.mb-1 = post.user.user_name
+                p.card-text.mb-3 = truncate(post.body, length: 150)
+                = link_to "Read more →", post, class: "btn btn-outline-secondary mt-auto"
+    - else
+      p.alert.alert-warning No posts found.

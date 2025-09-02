@@ -1,22 +1,30 @@
-p style="color: green"
+p.text-white
   = notice
 
 - content_for :title, "Posts"
 
 = search_form_for @q, url: posts_path, method: :get do |f|
-  div
-    = f.label :title_cont, "Search By Title"
-    = f.search_field :title_cont, placeholder: "Enter Title :"
-
-  div
+  section.search.mb-4
+    h4.mb-3 Search Posts
+    = f.search_field :title_cont, placeholder: "Enter title"
     = f.submit "Search"
 
-h1 Posts
+main.container
+  header.d-flex.justify-content-between.align-items-center.mb-4
+    h1 Posts
+    = link_to "New Post", new_post_path, class: "btn "
 
-#posts
-  - @posts.each do |post|
-    = render post
-    p
-      = link_to "Show this post", post
-
-= link_to "New post", new_post_path
+  section
+    - if @posts.any?
+      .row
+        - @posts.each do |post|
+          article.col-md-6.mb-4
+            .card.h-100
+              .card-body.d-flex.flex-column
+                h2.card-title = post.title
+                p.text-muted.mb-1 = post.user.user_name
+                p.card-text.mb-3 = truncate(post.body, length: 150)
+                p.card-text.mb-1 Comments: #{post.comments.size}
+                = link_to "Read more ->", post, class: "btn btn-outline-secondary mt-auto"
+    - else
+      p.alert.alert-warning No posts found.

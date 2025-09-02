@@ -1,12 +1,17 @@
-div id=dom_id(post)
-  h1
-    = post.title
+article.mt-5 id=dom_id(post)
+  header
+    h1 = post.title
+    p
+      | By 
+      = link_to post.user.user_name, post.user
+      |  
 
-  p
-    = post.user.user_name
-    strong Body:
-    = post.body
+  section
+    p
+      strong Content:
+    p = simple_format(post.body)
 
-  p
-    strong Made By :
-    = link_to post.user.email, post.user
+  footer
+    p
+      strong Author Email: 
+      = post.user.email
