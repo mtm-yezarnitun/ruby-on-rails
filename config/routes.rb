@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
   get 'users/show'
-  get 'uusers/shwe'
 devise_for :users, controllers: {
   registrations: 'users/registrations'
 }
+  namespace :admin do 
+    resources :users
+  end
+  resources :notifications, only: [:index] do
+    member do
+      patch :mark_as_read
+    end
+  end
+
   resources :posts do
    resources :comments, only: [:create, :destroy]
   end

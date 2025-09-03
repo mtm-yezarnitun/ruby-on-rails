@@ -1,0 +1,10 @@
+h1
+  | Welcome to My Awesome App, 
+  = @user.user_name
+  | !
+
+p Thanks for signing up.
+
+p
+  | You can login here:
+  = link_to 'Login', new_user_session_url

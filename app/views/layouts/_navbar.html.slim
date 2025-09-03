@@ -1,10 +1,16 @@
-div style="display: flex; align-items: center; justify-content: space-between; border-bottom:2px solid black; padding-bottom:10px;"
+div style="display: flex; align-items: center; justify-content: space-between; border-bottom:2px solid #4e53f5 ; padding-bottom:10px;"
   h4.nav
     = link_to "Home", root_path
 
   - if current_user
     h4.nav
       = link_to "My Posts", posts_myposts_path
+    h4.nav
+      = link_to "Notifications", notifications_path
+      
+    - if current_user.admin?
+      h4.nav
+        = link_to "User Management", admin_users_path
 
     - if current_user.profile_picture.attached?
       = link_to edit_user_registration_path do

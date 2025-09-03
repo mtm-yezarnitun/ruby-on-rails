@@ -1,6 +1,3 @@
-p.text-white
-  = notice
-
 - content_for :title, "Posts"
 
 = search_form_for @q, url: posts_path, method: :get do |f|
@@ -12,7 +9,7 @@ p.text-white
 main.container
   header.d-flex.justify-content-between.align-items-center.mb-4
     h1 Posts
-    = link_to "New Post", new_post_path, class: "btn "
+    = link_to "New Post", new_post_path, class: "btn"
 
   section
     - if @posts.any?
@@ -26,5 +23,7 @@ main.container
                 p.card-text.mb-3 = truncate(post.body, length: 150)
                 p.card-text.mb-1 Comments: #{post.comments.size}
                 = link_to "Read more ->", post, class: "btn btn-outline-secondary mt-auto"
+      = will_paginate @posts,previous_label: '«', next_label: '»' , class: "custom-pagi"
+
     - else
       p.alert.alert-warning No posts found.

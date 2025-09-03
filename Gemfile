@@ -17,6 +17,8 @@ gem 'friendly_id', '~> 5.5', '>= 5.5.1'
 gem 'ransack', '~> 4.3'
 gem 'slim-rails'  
 gem 'sassc-rails'
+gem 'pundit'
+gem 'will_paginate', '~> 3.3'
 
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -27,10 +29,7 @@ end
 
 group :development do
   gem "web-console"
-  gem 'rubocop', require: false
-  gem 'rubocop-rails', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rspec', require: false  # if you use RSpec
+  gem "letter_opener"
 end
 
 group :test do

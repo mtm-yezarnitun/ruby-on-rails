@@ -1,6 +1,3 @@
-p.text-white
-  = notice
-
 - content_for :title, "My Posts"
 
 main.container
@@ -9,14 +6,15 @@ main.container
     
   section
     - if @posts.any?
-      .row
+      .row.d-flex.justify-content-between
         - @posts.each do |post|
-          article.col-md-6.mb-4
+          article.col-md-6
             .card.h-100
               .card-body.d-flex.flex-column
                 h2.card-title = post.title
                 p.text-muted.mb-1 = post.user.user_name
                 p.card-text.mb-3 = truncate(post.body, length: 150)
-                = link_to "Read more →", post, class: "btn btn-outline-secondary mt-auto"
+                p.card-text.mb-1 Comments: #{post.comments.size}
+                = link_to "Read more ->", post, class: "btn btn-outline-secondary mt-auto"
     - else
       p.alert.alert-warning No posts found.

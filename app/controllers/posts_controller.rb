@@ -1,13 +1,14 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :authenticate_user! , only: %i[ new update destroy ]
+  include Pundit::Authorization
+
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
-
-    @q = Post.ransack(params[:q])
-    @posts = @q.result(distinct: true)
+   @q = Post.ransack(params[:q])
+   @posts = @q.result(distinct: true).order(created_at: :asc).paginate(page: params[:page], per_page: 6)
   end
+
 
   # GET /posts/1 or /posts/1.json
   def show
@@ -20,7 +21,8 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
-    redirect_to posts_path,alert: "Not Authorized!" unless @post.user == current_user
+    authorize @post
+    # redirect_to posts_path,alert: "Not Authorized!" unless @post.user == current_user
   end
 
   def myposts
@@ -48,10 +50,8 @@ class PostsController < ApplicationController
   
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
-    if @post.user != current_user
-      redirect_to posts_path, alert: "Not Authorized"
-      return
-    end
+    authorize @post
+
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: "Post was successfully updated.", status: :see_other }
@@ -65,10 +65,7 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
-    if @post.user != current_user
-      redirect_to posts_path, alert: "Not Authorized"
-      return
-    end
+    authorize @post
     @post.destroy!
     respond_to do |format|
       format.html { redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other }

@@ -10,11 +10,11 @@
           li = error.full_message
 
   div
-    = form.label :title, style: "display: block"
+    p = form.label :title, style: "display: block"
     = form.text_field :title
 
   div
-    = form.label :body, style: "display: block"
+    p = form.label :body, style: "display: block"
     = form.text_area :body
 
   = form.number_field :user_id, value: current_user.id, style: "display: none;"

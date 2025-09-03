@@ -4,7 +4,7 @@ div
   - if user_signed_in?
     = form_with(model: [@post, Comment.new], local: true) do |form|
       div
-        = form.label :body, "Leave a comment:"
+        span = form.label :body, "Leave a comment:"
         = form.text_area :body, class: "input", required: true
       div
         = form.submit "Post Comment", class: "button"
@@ -13,15 +13,16 @@ h3 Comments
 
 - @post.comments.each do |comment|
   div.mb-2
-    strong= comment.user.email
-    p= comment.body
-    - if current_user == comment.user
+    strong= comment.user.user_name
+    |  -
+    strong= comment.body
+    - if policy(comment).destroy?
       = button_to "Delete", post_comment_path(@post, comment), method: :delete, data: { confirm: "Are you sure?" }, class: "button button-outline"
 
-- if current_user == @post.user
+- if policy(@post).edit?
   div.mt-3
     = link_to "Edit this post", edit_post_path(@post), class: "button button-outline"
-    br
+    | 
     = button_to "Destroy this post", @post, method: :delete, class: "button button-danger"
     
 br

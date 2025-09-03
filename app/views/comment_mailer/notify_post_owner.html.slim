@@ -1,0 +1,9 @@
+h2 Hi #{@user.user_name},
+
+p Your post "#{@post.title}" just received a new comment:
+
+blockquote = @comment.body
+
+p From: #{@comment.user.user_name}
+
+p = link_to 'View Post', post_url(@post)

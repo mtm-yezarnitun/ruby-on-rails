@@ -1,0 +1,22 @@
+h1 Users Management
+
+table.user-tbl
+  thead
+    tr
+      th User Name
+      th Email
+      th Role
+      th Created At
+      th Actions
+  tbody
+    - @users.each do |user|
+      tr
+        td= user.user_name
+        td= user.email
+        td= user.role
+        td= user.created_at.strftime("%Y-%m-%d")
+        td
+          = link_to "Show", admin_user_path(user), class: "button button-ouline"
+          = link_to "Edit", edit_admin_user_path(user), class: "button is-small"
+          - unless user.admin?
+           = button_to "Delete", admin_user_path(user), method: :delete, data: { confirm: "Are you sure?" }, class: "button is-small is-danger"

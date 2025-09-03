@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_02_083619) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_03_064800) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -60,6 +60,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_02_083619) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer "recipient_id", null: false
+    t.integer "actor_id", null: false
+    t.string "action"
+    t.string "notifiable_type", null: false
+    t.integer "notifiable_id", null: false
+    t.boolean "read"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actor_id"], name: "index_notifications_on_actor_id"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
+    t.index ["recipient_id"], name: "index_notifications_on_recipient_id"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -79,6 +93,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_02_083619) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "user_name"
+    t.integer "role", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -87,4 +102,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_02_083619) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "notifications", "users", column: "actor_id"
+  add_foreign_key "notifications", "users", column: "recipient_id"
 end

@@ -1,0 +1,16 @@
+h1 Your Notifications
+
+- if @notifications.present?
+  - @notifications.each do |n|
+    - if n.notifiable.respond_to?(:post)
+      - post = n.notifiable.post
+      = link_to post_path(post) do
+        div style="margin-bottom: 10px; padding: 10px; border: 1px solid #ccc;"
+          p
+            = "#{n.actor.user_name} #{n.action} on your post"
+            - unless n.read
+              span style="background-color: white; padding: 10px; border-radius: 5px; border: 1px solid #4e53f5 !important; font-size: 18px; margin-left: 20px;" New
+      - unless n.read
+        = button_to 'Mark as Read', mark_as_read_notification_path(n), method: :patch
+- else
+  p.alert.alert-warning No Notifications.
