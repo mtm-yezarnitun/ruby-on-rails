@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  get 'users/show'
-devise_for :users, controllers: {
-  registrations: 'users/registrations'
-}
+  
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+    omniauth_callbacks: 'users/omniauth_callbacks'
+  }
+
   namespace :admin do 
     resources :users
   end

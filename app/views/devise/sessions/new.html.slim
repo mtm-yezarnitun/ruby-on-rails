@@ -1,3 +1,6 @@
+= csrf_meta_tags
+= csp_meta_tag
+
 h3 Log in
 
 = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
@@ -17,4 +20,14 @@ h3 Log in
   .actions
     = f.submit "Log in"
 
-= render "devise/shared/links"
+
+
+- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' 
+  = link_to "Forgot your password?", new_password_path(resource_name) 
+  br
+
+- if devise_mapping.omniauthable?
+  - resource_class.omniauth_providers.each do |provider|
+    = button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false }
+
+

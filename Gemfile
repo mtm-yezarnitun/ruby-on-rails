@@ -19,6 +19,10 @@ gem 'slim-rails'
 gem 'sassc-rails'
 gem 'pundit'
 gem 'will_paginate', '~> 3.3'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+gem 'dotenv-rails'
+gem 'byebug'
 
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
