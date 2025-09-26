@@ -5,8 +5,14 @@ div style="display: flex; align-items: center; justify-content: space-between; b
   - if current_user
     h4.nav
       = link_to "My Posts", posts_myposts_path
+
+    - unread_count = Notification.where(recipient_id: current_user.id, read: false).count
     h4.nav
-      = link_to "Notifications", notifications_path
+      = link_to notifications_path do
+        - if unread_count > 0
+          | Notifications (#{unread_count})
+        - else
+          | Notifications
       
     - if current_user.admin?
       h4.nav

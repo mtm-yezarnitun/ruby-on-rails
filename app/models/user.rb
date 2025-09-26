@@ -1,8 +1,6 @@
 class User < ApplicationRecord
-  after_create :send_welcome_email
   enum role: { user: 0, admin: 1 }
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
@@ -18,16 +16,23 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     user = User.where(provider: auth.provider, uid: auth.uid).first_or_initialize
     user.email = auth.info.email if user.email.blank?
-    user.password ||= Devise.friendly_token[0, 20]
-    user.user_name ||= auth.info.name
-    user.save!
+
+    if user.new_record?
+      generated_password = Devise.friendly_token[0, 20]
+      user.password = generated_password
+      user.user_name = auth.info.name
+      user.save!
+
+      user.send_welcome_email(generated_password)
+    else
+      user.save!
+    end
     user
   end
 
-  private
-
-  def send_welcome_email
+  def send_welcome_email(raw_password = nil)
     Rails.logger.info "Sending welcome email to #{email}"
-    UserMailer.welcome_email(self).deliver_later
+    UserMailer.welcome_email(self, raw_password).deliver_later
   end
+
 end

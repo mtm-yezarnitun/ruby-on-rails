@@ -1,10 +1,12 @@
-h1
-  | Welcome to My Awesome App, 
-  = @user.user_name
-  | !
-
-p Thanks for signing up.
+h1 Welcome, #{@user.user_name}!
 
 p
-  | You can login here:
-  = link_to 'Login', new_user_session_url
+  | You can log in at 
+  = link_to @url, @url
+
+- if @password.present?
+  p
+    | Your temporary password is: 
+    strong = @password
+  p Please change it after logging in.
+

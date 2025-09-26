@@ -1,12 +1,5 @@
 h1 Edit #{resource_name.to_s.humanize}
-/ - if resource.profile_picture.attached?
-/   .profile-preview.mb-3
-/     h3 Current Profile Picture
-/     = image_tag resource.profile_picture,style: "height: 200px; width: 200px; border-radius: 20%; display:flex; margin: 0 auto;",alt: "Profile Picture", class: "img-thumbnail"
-/ - else
-/   .profile-preview.mb-3
-/     h3 No Profile Picture
-/     p You haven't uploaded a profile picture yet.
+
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put,multipart: true}) do |f|
   = render "devise/shared/error_messages", resource: resource
   .filed 

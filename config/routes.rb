@@ -24,4 +24,9 @@ Rails.application.routes.draw do
 
   get 'myposts', as: 'posts/myposts', to: 'posts#myposts'
   get "up" => "rails/health#show", as: :rails_health_check
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/mailbox"
+  end
+
 end
